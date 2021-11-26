@@ -6,3 +6,72 @@ No need of explaination. See Code for your reference.
 =====================================================================================================
 Minimum Capacity Transport Problem
 =====================================================================================================
+The problem is that for a given k, i have to find minimum Capacity of my truck such that I am able to 
+transport all my goods in the given order. 
+So say goods : [7,3,2,3,1,4] . k =3 . find Capacity
+So what i have to do is, find minimum capacity my truck needs to have such that in maximum 3 rounds
+I am able to deliver all my goods. 
+
+Brute Force Approach:
+for c = max(arr) to (sum of all elements in arr)
+{
+    for(trip 0 to k)
+
+        for(i 0 to n)
+}
+
+Logic is simple:
+c has to be maximum of all elements in the array, as I have to transport that. 
+So i start from c = max,
+now i will try to insert all elements in my container in total k trips, 
+say for example, for c = 7, 
+in first round i take, 7
+in second i take, 3,2
+in third i take, 3,1 
+Now my trips are exhausted, but i am not able to transport all goods, So increase c. 
+now i try for c =8
+in first round i take, 7
+in second i take, 3,2,3
+in third i take, 1,4
+
+Now my trips are exhausted and also all goods are transported. So that means, 
+minimum capacity of my truck should be 8. 
+As in worst case, k would be = 1.
+Time complexity of this : O(sum of all elements * n). 
+very bad complexity.
+
+Optimized Approach:
+Instead of incrementing c by 1. I use binary search Approach.
+
+start = max(arr)
+end = accumulate(arr.begin(),arr.end(),1)
+
+while( start != end)
+    c_not_found = true;
+    c = start + end /2;
+
+    now same logic as before for checking if this c is able to transport or not. 
+    see code. 
+
+    if(c_not_found)
+        start = c+1;
+    else
+        end = c;
+}
+
+c = start;
+ans = c;
+
+for example: [100,103,50,90,85,24] k = 4.
+for this if i do brute force, then number of iterations would be: 140-103 = 137. (140 is the ans)
+But if i use optimized Approach, then number of iterations would be: 9.
+
+Now moving onto worst case, k = 1. 
+for this if i do brute force, then number of iterations would be: 452-103 = 349. 
+But if i use optimized Approach, then number of iterations would be: 8
+
+So time complexity reduced to O(nlog(sum of all elements)))
+
+=====================================================================================================
+Maximum number of groups problem
+=====================================================================================================
