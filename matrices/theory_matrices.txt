@@ -1,0 +1,121 @@
+=====================================================================================================
+Partial Sums
+=====================================================================================================
+this is a query like give sum of a submatrix. 
+(1,3,5,5) -> so sum of submatrix formed by [1,3] till [5,5]
+
+2 brute force approaches -> one is simply traverse from start of sub-matrix to end and calculate the
+sum. this approach time complexity -> O(r*c) 
+Another is that i calculate partial sums row wise, then that complexity will be O(n).
+
+Optimized Approach:
+I keep a matrix of sums, which contains sum of all elements from: (1,1,i,j)
+This is done by a simple formula: s[i,j] = s[i-1][j] + s[i][j-1] + a[i,j] - s[i-1][j-1]
+
+After this, the sum calculation will be O(1). Constant time complexity. 
+(1,3,5,5) -> s[5][5] - s[0][5] - s[5][2] + s[0][2]
+
+therefore, formula for query(i1,j1,i2,j2) = s[i2][j2] - s[i1-1][j2] - s[i2][j2-1] + s[i1-1][j1-1]
+
+=====================================================================================================
+Range Update Trick
+=====================================================================================================
+we have to use 2 extra matrices for this. like we did in 1d array. 
+one is initialed to 0 and then in this matrix update func is called and this is done:
+
+    temp[r1][c1] += val;
+
+    temp[r1][c2+1] -= val;
+
+    temp[r2+1][c1] -= val;
+
+    temp[r2+1][c2+1] += val;
+
+After this, partial sum matrix is calculated for temp. 
+And finally this partial sum matrix and original matrix are added.
+
+USE CODE WITH DEBUG OPTION, THEN IT WILL BE EASY TO UNDERSTAND THE CODE.
+
+=====================================================================================================
+Maximum Sum Sub-matrix
+=====================================================================================================
+
+Brute Force approach is simple, we want to find corners, so we have 4 co-ordinates: 
+(r1,c1,r2,c2):
+so for brute force approach
+for(r1 to n)
+    for(r2 to n)
+        for(c1 to n)
+            for(c2 to n)
+
+But this is very bad. Time complexity of this is: O((rxc)2)
+
+So we use optimal approach for this:
+what we do is, 
+for(r1 to n)
+    for(r2 to n)
+    Now for r1 and r2, i add elements,(take column-wise sum) and place them in a array.
+    Now i will take maximum sub-array of this, 
+
+So first i will make a matrix called upsum which has sum in that column until ith element. 
+Then I will make use of this matrix to calculate maximum sub-array matrix sum. 
+
+Optimized solution time complexity: O(r^2.c) 
+
+=====================================================================================================
+Maximum size square full of 1s
+=====================================================================================================
+Brute Force Approach uses partial sum of sub-array. 
+what it does is:
+Simply go over rows and columns, keep this as bottom-most and check for greater sizes squares. 
+so we would have r1 , c1 as bottom-most corner, and r2 = r1 - i, c2 = c1 - i, as uppermost corner. 
+then using the formula , we check for partial sum of this submatrix. if this is = to (i+1)*(i+1),
+we have got a square. else break. and check for next r1 and c1. 
+
+Time complexity for this is: O(rows * columns * min(rows,columns) )
+If matrix is square, then O(n^3)
+
+for(r1 =0 to r)
+{
+    for(c1 =0 to c)
+    {
+        if(mat[r1][c1] == 1)
+        {
+            square_size = 1;
+            
+            for(i = 1 to min(rows,columns))
+            {
+                r2 = r1 - i;
+                c2 = c1 - i;
+
+                given r1,c1,r2,c2 -> check this sum, 
+                if it is equal to (i+1)*(i+1)
+                we have a sqaure of size i+1.
+                so increment sqaure_size by 1. 
+            }
+        }
+    }
+}
+
+Optimized Approach:
+instead of using partial sums, we use our previous knowledge, to calculate for next.
+
+Max_len[i][j] = 1+min(max_len[i-1][j],max_len[i][j-1],max_len[i-1][j-1]).
+
+This matrix keeps a check on maximum sqaure size derived above. 
+
+mat:    0,0,1,1,1
+        0,1,0,1,1
+        1,1,1,1,1
+        1,1,1,0,1
+
+So logic is, say for bottom-most corner, what we need to have is, say (3,2), if (up,left,diagonal)
+formed sqaures, then this also will form a sqaure. 
+
+ex: (1,1): 
+Now if left was 1, up was 1 and diagonal was 1. then -> this would form a sqaure. 
+what it means is, as left bottom-corner square, a size of 1 sqaure was possible, 
+
+Check the code, and experiment with it using DEBUG flag to get an idea how this is working. 
+
+Time complexity for this is now only: O(rows * columns)

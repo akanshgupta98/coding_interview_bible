@@ -1,0 +1,189 @@
+=====================================================================================================
+                                        INDEX
+=====================================================================================================
+
+1. Prime numbers -> after optimization : time complexity: O(sqrt(n))
+2. Prime factorization -> after optimization : time complexity: O(sqrt(n))
+3. Sieve of eratosthenes -> after optimization : time complexity: O(nlog(n))
+4. Fast exponentiation -> after optimization: time completely: O(log(n))
+5. Pigeon Hole Principle
+=====================================================================================================
+
+PAGE BREAK
+
+=====================================================================================================
+PRIME NUMBER
+=====================================================================================================
+Prime Number -> a number > 1 which is only divisble by 1 and the number itself.
+Brute Force solution -> O(n) -> check for each number. 
+Optimized using maths -> n is not a prime number if it can be represented as a product of 2 natural 
+numbers. so n = a.b
+now if we find for a, from 2 to n-1. then b will automatically be found by n/a.
+We assume that a <= b. this is true, as one number would be greater than or equal to other.take any
+2 numbers say, 5 and 8. 5 < 8.
+now if a <= b ==> then a.b >= pow(a,2). a.b = n, so
+n >= pow(a,2).
+therefore, a = sqrt(n).
+earlier we had to check for each number from 2 to n-1. now, we only have to check from 2 to sqrt(n).
+Example, 
+873. 
+now i will check 873/{2...872} or using optimization i can check from {2...sqrt(873)}. 
+
+=====================================================================================================
+PRIME FACTORIZATION
+=====================================================================================================
+Prime factors -> a number has to be represented in prime factors. say 100 = 2x2x5x5.
+So manual method: 
+100/2 = 50 -> 50/2 -> 25. 
+so 100 = 2x2x{....}.
+now 25 is not divisible by 2. so try with next prime factor, 
+25/3 -> not possible,
+25/5 = 5 -> 5/5 = 1. 
+when we reach 1. that is when we have found the solution. 
+so 100 = 2x2x5x5. 
+This is how prime factorization is done manually. 
+Now if we use this, then complexity will be O(n).
+but we can use prime number optimization, and reduce it to O(sqrt(n)).
+exit condition -> either the number becomes 1 or it is a prime number. 
+Example,
+46/2 = 23. 
+in brute force, i would check for all prime numbers till 22. and then exit. 
+but in optmized version, i would check till sqrt(n), then exit. so 23/2 -> NO, 23/3 ->NO, 23/5 -> NO
+Exit. 
+
+=====================================================================================================
+SIEVE OF ERATOSTHENES (all prime numbers till n)
+=====================================================================================================
+This is used to generate all prime numbers upto a certain limit. 
+It works as follows:
+say I want to check till 17. 
+so it will take an array, till 17, 
+1|2|3|4......|15|16|17
+now it will go and check for a number.
+initially all will be marked as prime. 
+so 2 is prime, so mark all multiples of 2 as non-prime. that is, set them to false, 
+so 4,6,8,10,12,14,16 -> not prime. 
+now 3 is prime, so mark all multiples of 3 as non-prime. that is, set them to false, 
+so, 6,9,12,15 -> not prime. 
+now 4 is already marked as non-prime, so skip it. 
+now 5 is prime, so mark all multiples of 5 as non-prime. that is, set them to false, 
+10,15 -> not prime. 
+now 6 -> not prime,
+now 7 is prime, so mark all multiples of 7 as non-prime. that is, set them to false, 
+14 -> not prime,
+now 8,9,10 -> not prime
+11 is prime, so mark all multiples of 11 as non-prime
+but 22 is greater than limit that is 17. so now stop. I have found all prime numbers till
+limit. 
+
+Time complexity : O(n*log(n))
+
+Rough proof:
+we get inside the loop, only for primes, 
+so for i = 2, number of operations (marking the multiples of primes as non-primes) are atmost
+n/2. example, for n = 17, i =2, we mark, 4,6,8,10,12,14,16 . Hence 7 operations. 
+which is less than 17/2 = 8. for i = 3, we marks, 6,9,12,15. hence 4 operations. 
+which is less than 17/3 = 5. 
+so complexity will be: (n/2+n/3+n/5+n/7.....n/limit/2). 
+Taking n outside we have n(1/2+1/3+1/5......).
+now (1/2+1/3+1/5...) would always be less than (1/2+1/3+1/4+1/5+1/6....).
+(1/2+1/3+1/4+1/5+1/6....) = log(n).
+So time complexity is n(log(n)).
+
+
+Proof of time complexity:
+https://www.geeksforgeeks.org/how-is-the-time-complexity-of-sieve-of-eratosthenes-is-nloglogn/
+
+In brute force, we used to check all numbers for prime, so complexity was 
+O(n*sqrt(n)). 
+
+=====================================================================================================
+FAST EXPONENTIATION
+=====================================================================================================
+In normal exponentiation, we have O(n).
+say, 5^5 ==> 5x5x5x5x5. So multiply the base n number of times. this is the answer. 
+But in optimized version, we can use basic maths. 
+    
+base^exp, now 2 cases. 
+1. exp is odd. then this can be written as-> base * base^(exp-1).
+2. exp is even, then this can be written as -> base*base*(exp/2).
+
+Example
+say, 5^10.
+now 5^10 = (5^2)^5.
+5^5 = 5*5^4
+5^4 = 5^2^2.
+5^2 = constant time -> 5x5.
+
+This is done by recursion. 
+
+/* EXIT CONDITION */
+if(exp == 0)
+{
+    return 1;
+}
+/* ODD CASE */
+if(exp%2)
+{
+    return (base*compute_pow(base,exp-1));
+}
+
+/* EVEN CASE */
+return(compute_pow(base*base,exp/2));
+
+Time Complexity of this fast exponentiation -> O( log(n) )
+
+=====================================================================================================
+PIGEON HOLE PRINCIPLE
+=====================================================================================================
+Pigeon hole principle says that if there are n holes and n+1 pigeons, that means, that atleast 1
+hole contains morea than 1 pigeons. 
+
+This can be illustrated in this example problem:
+Given an integer n, find a number which contains only 0s and 1s which is completely divisble
+by n.
+
+Here pigeon hole principle can be used. 
+
+we see that for n, remainder can be from 0 to n-1. So total remainders possible for this is 
+n. But if we get 0 remainder, then our problem is solved. So leaving 0, we have n-1 remainders. 
+
+Now if we take n numbers which contain only 1, then according to pigeon hole principle, there would 
+be atleast 2 numbers which would have same remainder. because, remainder possible is n-1. 
+when we take n numbers, then even if all remainders are unique, we get for n-1 numbers different
+remainder, then for nth number, remainder would be repeated. 
+
+so we will have 2 numbers, say 1111....i times and 1111.....j times, which have same remainder
+so now, if we subtract these 2, we will get a number which contains only of 0s and 1s and 
+this would be divisble by n. 
+
+Proof of why 2 numbers with same remainder on substraction would be divisble by n. 
+
+we use, dividend = divisor*quotient + remainder.
+
+so, say we have 2 numbers, x1 and x2.
+
+X1 = N*Q1 + R1.
+X2 = N*Q2 + R2.
+
+R1 = X1 - N*Q1
+R2 = X2 - N*Q2.
+
+Now from above we know that remainder are same, so
+R1 = R2
+X1 -N*Q1 = X2 - N*Q2.
+
+When we take difference, we get,
+X1 - X2 = N*(Q1 - Q2).
+we know that any number can we represented in form dividend = divisor * quotient + r. 
+so the number formed by X1 - X2 = N*Q + R 
+putting R = 0, we get X1 - X2 = N*(Q1 - Q2)
+
+So this is how, 2 numbers with same remainder from same divisor , their difference would be divisble
+by divisor.
+
+=====================================================================================================
+END
+=====================================================================================================
+
+

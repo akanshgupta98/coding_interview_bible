@@ -1,0 +1,178 @@
+=====================================================================================================
+Partial Sum
+=====================================================================================================
+Partial sum is sum of array elements between start and end provided by user. Naive approach is simple,
+run a loop between start and end. 
+Good method is, compute running sum of array once, and then all partial queries will be in constant
+time. par_sum(x,y) = run[y] - run[x-1].
+
+=====================================================================================================
+Range Update Trick
+=====================================================================================================
+This is very good trick. 
+Generally what we do is, given a range and a value, we update all the values using brute force 
+approach. so for every update it takes O(n) time to range update. If there are n updates, then total
+time complexity would be O(n^2).
+To optimize this, we can make use of a trick.
+What we do is, we take 2 extra arrays. And read the updates, and we assign start to value and end+1
+to negative of that value. This is explained below:
+
+B: |0|0|0|0|0|0|0|
+say i have update(2,6,5).
+So what i will do is, B[2] += 5. and B[7] -= 5.
+now again i encounter a query for update(3,8,2).
+So what i will do is, B[3] += 2 and B[9] -= 2.
+so for now my B is,
+B: |0|0|5|2|0|0|0|-5|0|-2|
+
+Now i will take a third array, say C, and will calculate running sums. 
+C:|0|0|5|7|7|7|7|2|2|0|
+Now finally i will update my original array, say A:|1|2|-3|4|5|10|11|12|34|100|
+so A will become:
+|1|2|2|11|12|17|..... and so on. 
+
+So O(n^2) is reduced to O(n).
+=====================================================================================================
+Frequency Array
+=====================================================================================================
+This is only used for small arrays, which have not very much variation in values.
+
+we simply create a frequency array and index it as values of main array, and their counts as values
+
+main_arr = {1,2,3,4,1,2,3,5}
+so frequency_arr: |0|2|2|2|1|1|
+we see that at inxed 0: we have 0: that means, no 0 is present
+at index 1: we have 2: so value 1 appears 2 times in main array.
+
+this is used for small values, but for large, we use hash tables.
+
+Time complexity of this approach: O(n).
+and query answer is: O(1).
+
+=====================================================================================================
+Maximum Sum Sub-array
+=====================================================================================================
+Brute Force approach is take all sum for all sub-arrays. complexity for this is O(n2).
+
+We can take greedy approach. Use Kadane's Algorith, for this. 
+It is based on assumption that positive element or positive sum helps me in my process,
+as if all the elements were positive, then maximum sum would always be the whole array. 
+So what i do is, I go over elements, and if the sum till now is positive, i continue, 
+if not, then i reset my sum, and start fresh from the next element.
+In all this, my maximum sub array sum obtained will be stored, so when i start fresh, then the 
+maximum sum obtained till now is not lost, we are just trying to get some other sub-array sum which
+is greater than what we obtained till now. 
+Time complexity for this : O(n).
+
+ANOTHER APPROACH:
+We can also make use of partial sums. 
+
+We make a running sum array. 
+Then for sub-array sum (start,end) = run_sum[end] - run_sum[start-1];
+Now we need this sub-array sum to be maximum. So for that, the negative value must be minimum,
+here, run_sum[start-1] -> should be minimum. So now only one loop is required, for end pointer.
+
+
+Time-complexity : O(n).
+
+=====================================================================================================
+Longest Consecutive Numbers Sub-array
+=====================================================================================================
+Consecutive numbers sub-array is defined as between a start and stop, if all the numbers appear,
+then it is a consecutive sub-array. 
+Example:
+A: |3|7|1|4|5|2|3|8|10|9
+
+here between index 2 and 6, the sub-array contains, 1 4 5 2 3. so we have 1 2 3 4 5. so all values
+between minimum and maximum of sub-array. 
+
+We have to get the longest sub-array. 
+To do this,
+we need 2 things:
+1. all elements must be distinct between start and stop.
+2. maximum - minimum element + 1 = number of elements in sub-array. 
+
+Brute-force approach is:
+O(n3). a for loop for start, for loop for end, for loop for max,min,distince checking. 
+for(start 1 to n){
+    for(end= start to n){
+        max = max_element(); O(n)
+        min = min_element(); 
+        is_distinct();
+    }
+}
+
+optimized solution: O(n2)
+we do distinct,max,min in 2 loops only. 
+
+for(start 1 to n){
+    max = min = a[start];
+
+    for(end = start to n){
+        max = max(max,a[end]); O(1)
+        min = min(min,a[end]);
+        distinct -> use frequency array and mark a[end].
+    }
+}
+
+we are taking advantage of the fact that we are adding one element at a time in our
+sub-array. so simply comparing old and new element would do the trick. 
+
+left -> 1, end = 1:
+we have just 3. as our max and min. 
+left ->1 , end = 2:
+we compare 3 and 7, for max and min, 
+we get max = 7, min = 3.
+left -> 1, end = 3:
+we compare for max -> 7 and 1
+and we compare for min -> 3 and 1. 
+we get max as 7 and min as 1. 
+so ultimately we have our max and min correct.
+
+This is how we need to optimize things, It is not always possible that a problem solution 
+needs to be in constant time, we can manipulate the problem and for our purpose, get it in 
+constant time. 
+Remember -> max, min can be found in constant time if we go element by element. 
+
+=====================================================================================================
+Sliding Window Technique
+=====================================================================================================
+This is the most used concept in solving array questions. 
+
+Ques: find longest sub-array with at most k distinct elements. 
+Brute force approach: O(n2). Simply use 2 loops for start and end, and keep checking for unique
+elements, when unique elements are greater than k, break and increment start. 
+
+Sliding window, we can achieve O(n).
+
+A: |1|5|2|1|7|2|1|5|5|7|
+first we find left and right positions which are possible for single sub-array.
+initial left =0, 
+right 0 to n:
+when(distinct_ele > k)
+{
+    break;
+}
+so for this we will get initial positions as, left =0, right = 3.
+
+now we start removing left elements, 
+
+for(left =2 to n)
+{
+    del a[left-1];
+    if(distinct_ele < k){
+        while(right < n){
+            r++;
+            distinct_ele > k{
+                break;
+            }
+        }
+
+        if(right == n){
+            we got ans. break;
+        }
+        else{
+            r--;
+        }
+    }
+}
