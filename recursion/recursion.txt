@@ -1,0 +1,61 @@
+========================================================================================================================
+Fill Algorithm
+========================================================================================================================
+This uses recursion. 
+Problem statement:
+given a board in which . -> land, # -> water. Determine the number of islands and maximum number of cells in an island. 
+
+we simply, recur, and mark all the cells we have visited.
+See code for further explanation. 
+Ultimately what we do is, check if up right left down, if all these are water, then good. island found. 
+if left right down up, any of these is land, we recur to land, and mark the original one as visited. we do this till all
+up left bottom right are not water. 
+but remember, if we get to a position where 3 are water , 1 is visited. then it is not guaranteed that this is island.
+we simply return from there. 
+Example,
+.   #   .   .   #
+#   #   .   #   #
+.   .   .   .   .
+#   #   #   #   .
+
+we start from 0,0
+left -> 0,-1
+right -> 0,+1
+up -> -1,0
+down -> +1,0
+
+so we fill(0,0) -> check all 4 directions, we get water. and we return
+mark island++;
+then 0,1 -> # continue;
+then 0,2 -> fill(0,2)
+check right -> (0,3) -> land. fill(0,3) -> mark visited, check for 4 directions in (0,3). we find nothing to fill
+then return, now returned to (0,2) now check for remaining directions. 
+check down -> (1,2) -> land. fill(1,2) -> mark visited, check for 4 directions in (1,2). we find down to fill. 
+so recur to fill(2,2) ->recur again. 
+
+remember, island++ only when from where we started, we reach. So island++ is in main loop. 
+Because, we are trying to see from base, that starting from this cell, what is the size of island i can get. 
+so when we return back to base, then that means, we have found the island. 
+For this configuration: i can see that there are only 2 islands possible. 
+
+This is just pseudo code, check cpp file for proper code.
+fill(int row, col)
+{
+    visited[row][col] = true;
+    if(left right bottom up == water || visited)
+    {
+        return;
+    }
+    if(left land){
+        fill(left);
+    }
+    if (right land){
+        fill(right);
+    }
+    if (up land){
+        fill(right);
+    }
+    if (down land){
+        fill(right);
+    }
+}
