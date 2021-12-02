@@ -75,3 +75,77 @@ So time complexity reduced to O(nlog(sum of all elements)))
 =====================================================================================================
 Maximum number of groups problem
 =====================================================================================================
+NOT UNDERSTOOD. REVISIT. 
+=====================================================================================================
+Maximum special distance problem
+=====================================================================================================
+Given a set of x and y co-ordinantes(points), find the maximum special distance between them. 
+Special distance is defined as: min(|xi-xj|,|yi-yj|)
+
+Brute Force approach is simple:
+O(n2). go over all of them, keep a track of max special distance obtained. 
+
+Optimized Approach:
+Use binary search for distance. 
+Idea is: start from 0 , end: 10000000.
+distance = 500000
+So, check if this distance exists between any points, if yes, then check for greater distance
+start = 500000 end = 10000000
+if invalid, then check for lower side. 
+
+Valid or invalid check:
+
+Now here make use of maths logic. 
+
+sort the points based on x-coordinate. 
+We will iterate over points x for j. 
+
+We know from special distance that, 
+min(xi-xj,yi-yj) = dist. 
+
+so for this, between any 2 points, 
+|xi - xj| >= dist 
+|yi - yj| >= dist. 
+only then this distance will exist. 
+
+So what we do is, 
+first we check if there exist any point xj-xi (as we have sorted the points based on x and 
+j is greater. ) i will be < j. 
+
+So check for xj - xi where i exists till j. 
+
+if we find any such point, then we check for j. 
+But we don't. we simply break, because of sorting, 
+what we will get is: 
+xj - xi >= dist. if this is true, then good, else we need to break. 
+because, we know that xi is increasing(as it is sorted) so if
+xj - xi is not greater than distance, 
+then after increasing i, we will get more smaller value now. So no chance that we will get this
+condition true. so break. 
+
+but if we find, 
+Then carefully see:
+|yi - yj|
+we fixed yj for particular j. 
+so yi - yj => yi - CONST.
+now we want this quantity to be >= dist. 
+So we want to maximize it. 
+2 conditions possible:
+yi > yj => yi - yj => for this to be maximum, we need yi to be maximum.
+yi < yj => yj - yi => for this to be maximum, we need yi to be minimum. 
+
+So we only keep a track of minimum and maximum yi from all points for which xj - xi >= dist 
+holds true. 
+
+By doing this, the problem is optimized into O(nlogn).
+
+Please see code with DEBUG option to get better understanding of what is happening. 
+
+Why we don't change i once we get a single valid xj -xi. 
+Because see carefully, xj - xi >= dist => true. 
+Now with j++, xj - xi >= dist, as for smaller xj it was true, then bigger xj and fixed xi will be true
+so that is why we save time, and simple check for any other valid points. 
+
+TIP: if there is a problem where we have to find a maximum from some minimums, or vice-versa,
+binary search comes into the picture. 
+
