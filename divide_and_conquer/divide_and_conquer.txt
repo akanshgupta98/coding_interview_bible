@@ -1,0 +1,34 @@
+=========================================================================================================================
+Merge Sort
+=========================================================================================================================
+It is based on divide and conquer approach. 
+First we divide the array into 2 parts, left and right. After that, we apply the merge algorithm.
+
+Dividing is easy, just like we do it in binary search. The only difference here is, that as the end
+we do not give the last element + 1, instead last element.
+So initial call is: (arr.begin(),arr.end()-1)
+
+Then we divide into left and right.
+after that we call merge(start,mid,end).
+
+Here the logic is simple: (simply use logic of combining 2 sorted arrays. )
+for example, say arr is: |1,2,3,4,-2,34,15,28,100|
+so lets say, start is at 2, end is at 28, mid is at = -2.
+
+So we take an auxilary array say temp
+now left_trav = start,
+right_trav = mid+1.
+so compare these two, and based on comparison increment either one of two. 
+then what all elements are left, simply insert them into temp. 
+after that copy this temp (remember this is now sorted) into original array. 
+
+For reference , see code. 
+It is complicated due to use of iterators and pointers instead of indices. So see that
+and understand. 
+
+Time complexity: O(nlogn)
+=========================================================================================================================
+Maximum Sum Sub-array
+=========================================================================================================================
+
+
