@@ -27,8 +27,102 @@ It is complicated due to use of iterators and pointers instead of indices. So se
 and understand. 
 
 Time complexity: O(nlogn)
+
 =========================================================================================================================
-Maximum Sum Sub-array
+Z - Traversal
 =========================================================================================================================
+a 2^n x 2^n matrix filled in z-form. Given x,y . tell the value in matrix at x,y co-ordinate.
+
+Z form means:
+filling up upper left, then upper right, then lower left, then lower right,
+
+for example for n = 3, 
+
+1   2   5   6       17  18  21  22  
+3   4   7   8       19  20  23  24
+9   10  13  14      25  26  29  30  
+11  12  15  16      27  28  31  32
+
+33  34  37  38      49  50  53  54
+35  36  39  40      51  52  55  56
+41  42  45  46      57  58  61  62
+43  44  47  48      59  60  63  64
+
+This is 8x8 matrix, filled in Z-form. with 4x4 sub-matrix shown for illustration. 
+
+We use divide and conquer approach to solve this, because if we use brute force, 
+then memory complexity will be huge and time complexity will be O(2^n * 2^n).
+So not at all feasible. 
+
+We start with observing that, say we divide matrix into 4 quadrants, 
+upper left -> I 
+upper right -> II 
+lower left -> III 
+lower right -> IV 
+
+So, we observe that if x,y is in say II quad, then we must have already filled up the I quad
+only then we can reach to filling up our II quad. 
+So let's take an example query, x = 2,y=6.
+So this lies in II quad. 
+So to reach that, we must first have filled I quad, so end of I quad is:
+16, which in general can be seen as: 2^(2*n-2). This is observation. 
+so for this, when n = 3, we get 2^( (2*3) -2 )  = 2^4 = 16. 
+So we take 16 + then divide our problem only into size of II quad, in this case it is
+4x4 submatrix. 
+
+General Case:
+When x and y in I quad, then simply reduce n by 1 and x and y unchanged. 
+when x and y in II quad, then 2^( (2*n)-2 ) + reduce n by 1 and x and y changes according to 
+the below explanation. 
+when x and y in III quad, then  2^( (2*n)-1 ) + reduce n by 1 and x and y changes according to 
+the below explanation. 
+when x and y in IV quad, then  3 * (2^( (2*n)-2 )) + reduce n by 1 and x and y changes according to 
+the below explanation. 
+
+
+
+But now, we have to make sure, our x and y queries are changed according to our sub-matrix. 
+In this case, x remains unchanged, and y becomes y - 2^n-1.
+In general this can be seen:
+if x,y in I quad -> then x and y remains unchanged.
+if x,y in II quad -> then x remains unchanged and y becomes y - 2^n-1
+if x,y in III quad -> then x becomes x - 2^n-1  and y remains unchanged.
+if x,y in IV quad -> then x becomes x - 2^n-1  and y becomes y - 2^n-1.
+
+This is because, see matrix of say 4x4 will have indices as x : 0,1,2,3 and y: 0,1,2,3
+but when this becomes half, say 2x2, then x: 0,1 and y: 0,1 
+So because of this, we need to change our x and y according to the size of sub-matrix. 
+
+All these observations have been made by doing the problem by hand on notebook, and
+then I came to these observations. 
+So by following this, you can try to understand why and how x and y changes according to the 
+given situation we have at hand. 
+
+
+Again we divide this, 
+This all needs to be done recursively till n is 0, because when n is 0, we have sub-matrix 
+of size 1. that is a single cell, we simply fill in 1 there. 
+
+Please see the code for reference. This is a little tough to understand. 
+
+Time complexity for this: O(n)
+
+IMP POINT: (VERY IMPORTANT. REMEMBER THIS)
+
+1 << (n) -> this means that 1 is left shifted n times. 
+
+So this is equal to 2^n . 
+this is because:
+1 << 2 -> 1 is left shifted 2 times, 
+lets see what output we get, 
+assuming type as 8 bits, we have
+1 = 0000 0001
+now left shift 1 time, we get:
+1 << 1 = 0000 0010 ==> 2 in decimal format
+now left shift 1 more time,(total 2 times now), we get:
+initial: 0000 0010
+now this is <<1 : 0000 0100 ==> 4 in decimal format. 
+
+So remember this concept. 
 
 
