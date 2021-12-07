@@ -1,0 +1,141 @@
+=====================================================================================================
+STACK
+=====================================================================================================
+
+Works on Last In First Out Principle. (LIFO).
+Example, stack of notebooks, The last notebook submitted will first be checked by teacher. 
+Push -> insertion on top element
+Pop -> remove the top element
+top -> what is the top element. 
+
+Constant Complexity. 
+
+=====================================================================================================
+First Greater Element
+=====================================================================================================
+
+Given an array. We need to find the first greater element after this. 
+
+Example: |7|3|2|6|11|9|8|10|13|
+So, for 7 we have 11
+for 3 we have 11
+for 2 we have 11
+for 9 we have 10
+for 8 we have 10
+for 13 nothing is there. 
+
+So brute force approach: simply 2 loops, and we get it. 
+Time Complexity: O(n^2)
+
+We can use stack for this, and we can use a stack for this, and get this problem solved in O(n).
+
+Idea is:
+we will push when the element is less than top, 
+if we get greater, then that means we have encounter the first greater element, and we will pop in 
+a loop, until this element is greater than the top. And for all these popped elements we have 
+found the first greater element. 
+
+=====================================================================================================
+Largest Rectangular Area in Histogram
+=====================================================================================================
+For this, Brute force approach is simple. O(N^2).
+
+What we will do is, check for all rectangles formed, and then keep a track on max obtained. 
+
+Example, Heights: |6|2|5|4|5|1|6|
+
+So one loop for start
+    one loop for end:
+        l = min_element(start,end);
+        b = distance(start,end);
+        lxb = area.
+        max_area = max(area,max_area)
+
+So time Complexity: O(n2)
+
+Optimized approach:
+we see there are 3 elements, length -> which depends upon minimum heights of the sub array and 
+distance between start and end. So 3 parameters are: height, start and stop. 
+
+Now we see, for a particular height, we try to see what can be the value of start and stop. 
+For this, we use minimum first element on right and left. We maintain 2 arrays for this. 
+
+So what we get is for height say 4. we see when does the minimum element change, that is, 
+when this changes, then we cannot inlude in left and right. 
+
+Example,
+
+6 2 5 4 5 1 6
+
+For height 6: 
+we see minimum first left is: not available. start = itself, 0
+we see minimum first right is: 2. end = 0
+So that means, for height 6: only reactangle we can form is of: 6 * (0 - 0 + 1) = 6.
+
+For height 2:
+we see minimum first left: not available , start = 0
+we see minimum first right: 1, end = 4
+So that means, for height 2: only rectangle we can form is: of 2*(4 - 0 + 1) = 10.
+
+for height 5:
+minimum first left: 2, start = 2
+minimum first right: 4, end = 2
+so area = 5 * (2-2 + 1) = 5
+
+for height 4:
+minimum first left: 2 start = 2
+minimum first right: 1 end = 4
+so area = 4 * (4 - 2 + 1) = 12.
+
+for height 1:
+minimum first left: 0
+minimum first right: 6
+So area = 1 * (6 - 0 + 1) = 7.
+This means this is the minimum element. so we can take all breadt.
+
+for height 6:
+minimum first left: 1 start = 6
+minimum first right: end = 6
+area = 6 * (6 - 6 + 1) = 6.
+
+Remember that when first minimum left not available, that means all present on left side are
+greater than this, so start will always be 0.
+similarily, if first right minimum not available, that means all present on right side are
+greater than this, so end will always be last index. 
+
+=====================================================================================================
+Maximum area of rectangle full of 1s
+=====================================================================================================
+
+Brute Force Approach:
+Naive approach is very simple and very bad,
+simply make 4 loops for r1,c1,r2,c2 and check this if all are ones, if yes, check area, else move
+Time complexity: O((rxc)^2)
+
+Another Brute Force approach is:
+We can make 2 loops for r1 and r2, Then between these I will take the maximum continous 1s. 
+So length = maximum continous 1s, 
+breadth = r2 - r1.
+
+See code for reference. 
+Used an extra matrix for storing sum column wise. 
+
+Its complexity will be: O(r^2xc)
+
+Optimal Approach:
+We make use of largest rectangular area in a Histogram. 
+This we know can be done in O(n).
+
+For building Histogram,
+we set a loop for r2, and traverse the matrix column wise, and then check for maximum 
+continous 1s. 
+So for this
+i will keep additional matrix which will store heights obtained for r row. 
+Then simply check this for maximum rectangle histogram area. 
+
+Time Complexity: O(rxc).
+
+
+
+
+
