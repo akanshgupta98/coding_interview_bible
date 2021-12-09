@@ -1,0 +1,63 @@
+==================================================================================================================
+Queue
+==================================================================================================================
+Works on First in first out princple. 
+Insertion from back.
+deletion from front. 
+All operations in constant time. 
+
+==================================================================================================================
+Lee's Algorithm
+==================================================================================================================
+Given a maze (2d matrix), we need to find a shortest path from source to destination. 
+
+Lee's Algorithm works on the principle that the shortest path would always reach the destination
+first, that is before any other path reaches. 
+So we use a queue, and move to all 4 directions consecutively, but we give priority to lower cost first,
+and when we reach the destination, the first one to reac would be the minimum cost.
+
+Example:
+{
+    {1,1,1,1,1,1,1,1,0},
+    {1,1,1,0,1,0,0,1,1},
+    {0,0,1,1,0,0,0,0,1},
+    {0,1,1,0,0,1,1,0,1},
+    {0,1,0,0,0,0,0,0,1},
+    {1,1,0,0,1,1,1,1,1},
+    {0,1,1,1,1,0,1,1,1},
+    {0,1,0,0,1,0,1,0,0},
+    {0,1,1,0,1,0,1,1,0}
+}
+source: (6,5)
+dest: (2,3)
+right: (x,y+1)
+left: (x,y-1)
+up: (x-1,y)
+down: (x+1,y)
+
+Q: { {6,5,0} }
+So now i will simply check all directions in which I can go, and insert them into queue. 
+
+Q.pop();
+Q.push(src.right)
+Q.push(src.down)
+
+now Q will contain: { {6,6,1},{7,5,1}};
+Q.pop();
+
+Main thing is that queue insertion is at back, so first lower cost will be resolved,
+and then high, 
+This is very easy to understand. 
+Do it on notebook, and you will get the idea. 
+
+roughly:
+first we insert all the directions in which we can go from queue front (6,6,1)
+and then insert all from (7,5,1), 
+then we will be left with all cost 2 locations, 
+proceed again the same way, and ultimately, the shortest path will be reached first with 
+its cost and we will stop as soon as we get to the location. 
+
+
+
+
+
