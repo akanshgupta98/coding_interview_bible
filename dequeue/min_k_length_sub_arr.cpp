@@ -24,8 +24,6 @@ int main()
 
             }
             
-            
-        
 
         if(mydeque.empty())
         {
