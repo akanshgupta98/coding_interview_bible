@@ -1,0 +1,45 @@
+=====================================================================================================
+DEQUEUE
+=====================================================================================================
+
+It is a queue which is mostly used for storing some order, like minimum element or maximum element
+It is 2 sided queue. 
+Front and back
+operations can be performed at both ends.
+
+=====================================================================================================
+Minimum of K length sub-arrays
+=====================================================================================================
+Here the problem is, given an array, I want to know the minimum element in the sub-array of length K
+
+Brute force is simple:
+for (start = 0, end = k; end < arr.size(); start++,end++)
+{
+    *min_element(start,end);
+
+}
+
+Complexity will be:(O(n*k))
+
+Optimized approach:
+Use a DEQUEUE:
+
+we simply iterate over the array, and keep minimum element at front 
+and push element from back, and when we have reached our sub-array length, that is k, 
+pop the element from front. We used front to store minimum element. 
+
+Here whenever, i get an element which is greater than back, i simply insert, 
+but when i get less than back, i pop my back until the new element is greater than back. 
+
+This is because, for my current selection, where both these elements would be present in my sub-array
+we are concerned with only the minimum element, so we simply pop the element and do not care about
+this any more, because, we will be moving forward, linearly, so once we have reached our initial
+end, i.e k, start would be incremented linearly, every time one element will be removed from our
+sub-array. So middle elements can be discarded as soon as i get any element which is smaller than 
+that, because when start will increment, either the element popped and new element both will be in 
+selection, so in that case we know that we are concerned only about the new element as it is minimum,
+or the element popped is not there in sub-array, so then also we don't need to worry about this 
+element.
+
+Time-complexity: O(n).
+
