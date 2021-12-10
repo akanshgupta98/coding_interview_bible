@@ -1,0 +1,73 @@
+=====================================================================================================
+HEAP
+=====================================================================================================
+Heap is a data structure which is used to keep track of maximum or minimum element. 
+TIme- complexity:
+
+insertion: O(log N)
+deletion: O(log N)
+find top: O(1)
+Build heap: O(NlogN) => building heap from scratch. 
+
+We depict this theoretically as a binary tree but we store the heap in an array DS.
+
+father -> pos
+Left child -> 2*pos
+Right child -> 2*pos + 1
+
+INSERTION operation:
+we simply insert the element into the last index of the array 
+and then call upheapify. 
+
+It simply compares the new element to its father, if its greater/smaller (depending upon min heap or 
+max heap), we swap the element, and then recur this way, with new element being the father. 
+
+Here father -> new_index/2;
+new_index -> initially -> end of array. 
+
+DELETION:
+We simply swap the first node in array with last node, and remove the last node. 
+Now we call a procedure known as downheapify.
+
+It simply checks the children, and among the 2 children, whichever is the maximum, it swaps
+the father and max_child, and recur this way till end. 
+
+Here : father = 0 -> initially
+left child = father* 2 + 1 
+right child = father* 2 + 2 
+
+swap with maximum of left and right child, 
+and then father becomes the maximum child,( the node with which we swapped. )
+
+In STL:
+priority_queue -> MAX_HEAP DS. 
+if we require MIN_HEAP DS , we simply use the priority_queue with negative values, 
+like our array given is: (10,20,30)
+we simply make this array as (-10,-20,-30)
+and then build heap and use further. 
+
+=====================================================================================================
+Connect ropes with minimum cost
+=====================================================================================================
+given an array which contains lengths of ropes, find the minimum cost to join all ropes together. 
+cost is: sum of length of 2 ropes. 
+Remember we can only join any 2 ropes in single operation. 
+
+Brute Force:
+sort and take first 2 elements, join them and insert the sum. 
+Then again sort. 
+
+So time complexity of this approach is: O(n*nlogn)
+Which is bad. 
+
+Optimized approach:
+We simply use a min heap to keep track of minimum elements. 
+
+Like:
+build heap:
+Then recur:
+2 pop operations, 
+1 push operation of sum of these 2 pops. 
+Exit condition: when heap.size() == 1. 
+
+Time complexity: O(Nlogn)
