@@ -1,0 +1,149 @@
+======================================================================================================
+Greedy approach
+======================================================================================================
+Instead of seesing all the options and picking up a global max/min, I pick localised max/min, and
+I would move ahead, and not change the chosen option, that is, while choosing I assume that it will 
+give me the best answer, unlike DP where all possible options are explored and 1 best option is choosen,
+
+Mostly if the complexity required is: O(nlogn) and it is an optimization problem, then it is a hint
+that greedy solution is required. 
+Many times, a heap would also be required to solve. 
+
+======================================================================================================
+Knapsack Problem
+======================================================================================================
+The problem is, say I have a knapsack of given capacity, given values and weights , I have to 
+fill my knapsack and get a maximum value which is possible. Here I can split my weights 
+for example, if there is an item with value: 10 and weight 5, I can choose to take 2 units only. 
+
+So to solve this, 
+example,
+
+Values: {10,5,15,7,6,18,3};
+weights : {2,3,5,7,1,4,1};
+Capacity of my bag: 10
+
+Now, I can take value per weight, and then always take the maximum value first and fill it
+till the capacity in my knapsack. 
+
+Value per weight: {5,1.66,3,1,6,4.5,3}
+
+Now i will take first: 6 which has weight 1 . => capacity left: 9. Value: 6
+Then i will take 5: for 5 i have 2 weigths: => so one weight value 5, capacity is 9, 
+so i can take all 2 weights as I have capacity. => capacity left: 7. Value: 5*2 = 10. Total till
+now value: 6 + 10 = 16
+then i will take 4.5 => capacity i have: 6, weight of all 4.5 is 4, so i will include all, 
+capacity left => 3, Value = 4.5 * 4 = 18. Total value= 16 + 18 = 34.
+
+Now i will take 3 => capacity i have : 3, total units I have are 5. so i can only include 3
+so, capacity left = 0, value = 3 * 3 = 9, total value till now: 34 + 9 = 43. 
+
+Now capacity is 0 so i cannot include any further items. So i stop. 
+
+======================================================================================================
+Activity Selection Problem
+======================================================================================================
+Here i have been given start and end times for tasks, I have to find the maximum number of 
+activities I can perform in a day. 
+
+So for this, I will appl shortest job first principal. 
+So this means, that the problem with least end time is the acitivity I will choose first, 
+which means, that after completing this activity I will have maximum amount of time left. 
+
+Example:
+Activity: {{3,4},{8,9},{0,6},{1,2},{5,7},{5,9}};
+Now I will sort these on basis of end time. 
+So first end time: (1,2) , i first do this, 
+then i check for second end time, (3,4). Now question is can i perform this?
+to answer this, I can only perform an acitivity whose start time is greater than my earlier end time. 
+
+Example, last activity i performed was: (1,2) , now can i perform (3,4) ?
+ last activiy ended at 2, new is starting at 3. so YES. 
+
+then last activity i choose is now: (3,4)
+then i check for (0,6). Can i perform this?
+last activity is ending a 4, but this had to be started at 0, so that means now I cannot 
+take this activity. 
+
+Then i have {5,7} ,  last activity i performed was: {3,4}. remember we could not perform {0,6}.
+So can I perform this activity? 4 < 5. YES. I can. 
+
+This way I can check for all. 
+Time complexity : O(nlogn) => sorting time. 
+Selection time: O(n).
+
+======================================================================================================
+Minimum Number of Platforms
+======================================================================================================
+I used my own approach for this. 
+Sort the times based on arrival time. 
+Then maintain a minimum heap DS. 
+
+The idea is that the platform that will be vacated first, is kept track of because that Platform
+will be freed first for the train to arrive. 
+
+Greedy approach:
+sort the input based on arrival times. 
+
+then,
+if(min_heap.top() < start time)
+{
+    min_heap.pop();
+}
+min_heap.push(end time)
+
+remember that because of sorting, i know what train will come first, and based on that 
+I can see if the first platform that will be freed, can accomodate this train or not. 
+If not, that means no other platform will be able to do this, so new platform is required. 
+if this can accomodate, then remove this end time, and insert new end time. because of
+property of heap, automatically the platform that will be vacated first will we kept on top. 
+
+Simple code. Check the code. 
+
+======================================================================================================
+Kill Monsters
+======================================================================================================
+Given my health points and magic potions, I need to kill monsters to move ahead in the game. 
+The monsters must be killed in order to move further. I can use magic potions, it will kill the monsters
+without me losing my health points.  If the damage is in negative, that means by killing this monster
+I will gain health points. 
+
+The first approach I tried was:
+Keeping a max heap to keep track of largest k elements, so that I can keep potions for them
+and fight every other monster. But it will not solve the problem, as say I have maximum monsters
+as 100, but they are very far away, so I won't be able to reach them anyhow, So i will reserve the 
+potions for them, and I would be killed early. Instead I could use 2 potions and maybe kill 2 
+more monsters.
+
+So Correct approach is:
+I don't know just by looking at the damage of the monster that I should kill this or
+use potion,
+So what I do is, if the damage is negative, i simply kill, gain my health points and move ahead. 
+But if this is not the case, then I will kill it and I will maintain a max heap and push my kills
+into that. Whenever my health points will become 0 or negative, I will take the maximum of the
+damage monster did, and kill it with potion, and gain that many health points. 
+
+Example:
+hp = 10, potion = 2,
+damage: |-3|2|3|-2|8|8|6|4|3|3
+kill -3, gain 3 points, health points = 13
+kill 2: , lose 2 points, hp = 11, 
+kills: |2|
+kill 3: , lose 3 points, hp = 8,
+kills: |2|3|
+kill -2: , gain 2 points, hp = 10,
+kills: |2|3|
+kill 8: , lose 8 points, hp = 2,
+kills: |2|3|8|
+kill 8: , lose 8 points, hp = -6,
+kills: |2|3|8|8|
+Now i have potions, so what i will do is, max damage monster, use potion, and revive my health.
+So now,
+use potion on 8, so hp = 2
+kills: |2|3|8|
+kill 6: lose 6 points, hp = -4
+kills: |2|3|8|6|
+Now again i have 1 potion left, so i use it on max damage, so gain 8 points,
+so hp = 4
+kills: |2|3|6|
+Now kill 4: hp = 0. but now no more potions left, so end the game.
