@@ -44,4 +44,24 @@ Let's try to solve this by using the steps.
 5. define the answer
 ==> max(dp[j]).
 
+======================================================================================================
+Longest Common Sub-sequence.
+======================================================================================================
+This is not the solution. I tried but it is not working. The problem is of repeating indices. 
+I am not able to understand the solution given by instructor .
+Let's try to solve this by using steps. 
+
+1. define the sub-problem and store result. 
+==> dp[i] = the longest common sub-sequence including ith element. 
+
+2. recurrence relation
+==> dp[i] = 1 + max(dp[j.first], where search(i) > dp[j.second] )
+
+3. define the order.
+==> i goes from 0 to n. 
+4. initialize the non computable states.
+==> dp[0].first = 1
+    dp[0].second = search(a[0]).
+5. answer
+==> max(dp).
 
