@@ -147,3 +147,37 @@ Now again i have 1 potion left, so i use it on max damage, so gain 8 points,
 so hp = 4
 kills: |2|3|6|
 Now kill 4: hp = 0. but now no more potions left, so end the game.
+
+======================================================================================================
+Minimum Number of boats
+======================================================================================================
+Given weight of each student, what is are the minimum number of boats required to make all students
+cross the river, given that maximum of 2 children can be sent in 1 boat. The total sum a boat can 
+hold is 100kg. and the absolute difference between two students cannot be greater than 10.
+
+W: {81,37,32,88,55,93,45,72};
+
+So first thing is we will sort the array.
+
+W: {31,32,34,45,51,55,72,81,88,93}
+
+Now we can use 2 pointers, i and j. 
+i from 0,j from last to 0,
+
+if arr[j] + arr[i] <= 100
+max_heap.push(arr[j],arr[i]);
+else
+mark this visited, and j--.
+so in this example,
+93,88,81,72 => 4 boats required. 
+for 55, i have 31,32,34,45,51,
+now i will take maximum of this sub-array. 
+55 - 51 = 4.  both conditions satisfied. great. 
+mark visited.
+j--. 
+now i have 51, but visited.
+now 45, i have, 32,34
+so 45 - 34 = 11. second condition fail,
+So that means i wont be able to pair, it has to be alone. 
+j--.
+34 ,  so 31,32 
