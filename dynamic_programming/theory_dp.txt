@@ -1,0 +1,47 @@
+======================================================================================================
+5 steps for DP
+======================================================================================================
+Let's take an example of Fibonacci Series. 
+1. Define the sub-problems and store their result. 
+==> fib[i] = ith fibonacci number.  
+
+2. Find the recurrence relation. 
+==> it is formula that computes the solution of some problem, knowing the fact that we know the
+    solutions for smaller problems and combining the solutions
+
+    fib[i] = fib[i-1] + fib[i-2]
+
+3. define the order in which we want to solve the sub-problems.
+==> i is increasing, because for i we need to have solution of i-1 and i-2. 
+    so i goes from 0 to n
+
+4. find uncomputable states and initialize them.
+==> for i = 0, fib[-1] and fib[-2] does not exist. 
+    for i = 1, fib[-1] does not exist. 
+    so fib[0] = fib[1] = 1.
+
+5. Define the answer.
+==> fib[n].
+
+======================================================================================================
+Longest Increasing Sub-sequence.
+======================================================================================================
+Let's try to solve this by using the steps. 
+
+1. define the sub-problems and store the results. 
+==> dp[i] = the longest increasing sub-sequence till ith element. ith element has to be included. 
+
+2. define recurrence relation
+==> dp[i] = 1 + max(dp[j], and dp[j] < dp[i]). and j goes from 0 to i-1. 
+
+3. define the order for sub-problem.
+==> i goes from 1 to n.
+
+4. initialize the non computable states.
+==> when i will be 0, then j wont exist, as -1 does not exist. 
+    So dp[0] = 1.
+
+5. define the answer
+==> max(dp[j]).
+
+
